@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DirectOutput</RootNamespace>
     <AssemblyName>DirectOutput</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -187,6 +187,8 @@
     <Compile Include="Cab\Out\PhilipsHue\PhilipsHue.cs" />
     <Compile Include="Cab\Out\PhilipsHue\PhilipsHueAutoConfigurator.cs" />
     <Compile Include="Cab\Out\PhilipsHue\PhilipsHueController.cs" />
+    <Compile Include="Cab\Out\PinOne\PinOne.cs" />
+    <Compile Include="Cab\Out\PinOne\PinOneAutoConfigurator.cs" />
     <Compile Include="Cab\Out\PS\Pinscape.cs" />
     <Compile Include="Cab\Out\PS\PinscapeAutoConfigurator.cs" />
     <Compile Include="Cab\Out\PS\PS.cs" />

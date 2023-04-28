@@ -130,7 +130,7 @@ namespace DirectOutput.Cab.Out
         {
             foreach (IOutputController OC in this)
             {
-                OC.Update();
+                    OC.Update();
             }
         }
 
