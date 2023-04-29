@@ -12,32 +12,14 @@ using DirectOutput.Cab.Out.PS;
 namespace DirectOutput.Cab.Out.PinOne
 {
     /// <summary>
-    /// The <a href="https://developer.mbed.org/users/mjr/code/Pinscape_Controller/">Pinscape Controller</a> is an open-source
-    /// software/hardware project based on the inexpensive and powerful Freescale FRDM-KL25Z microcontroller development platform.
-    /// It provides a full set of virtual pinball cabinet I/O features, including analog plunger, accelerometer nudging, key/button
-    /// input, and a flexible array of PWM outputs.
+    /// The <a href="https://clevelandsoftwaredesign.com">PinOne Controller</a> is an open-source
+    /// software/hardware project based on the inexpensive, easy to use Arduino microcontroller development platform. Almost any
+    /// Arduino based board will work with the software, but the Cleveland Software Design PinOne board is 
+    /// specifically designed to work with the software and has all the hardware components already added into it. 
+    /// The ClevelandSoftwareDesign PinOne controller has 63 outputs built into the board that can be utilized by DOF. 31 outputs are 
+    /// available in the board and an additional 32 outputs can be added via expansion boards. 
+    /// DOF can automatically detect connected PinOne controllers and configure them for use with the framework.
     ///
-    /// For DOF purposes, we're only interested in the output controller features; all of the input features are handled through
-    /// the standard Windows USB joystick drivers.  The output controller emulates an LedWiz, so legacy LedWiz-aware software can
-    /// access its basic functionality.  However, the Pinscape controller has expanded functionality that the LedWiz protocol
-    /// can't access due to its inherent design limits.  To allow access to the expanded functionality, the Pinscape controller 
-    /// uses custom extensions to the LedWiz protocol.  This DirectOutput framework module lets DOF use the extended protocol to
-    /// take full advantage of the extended features.  First and most importantly, the Pinscape controller can support many more
-    /// output channels than a real LedWiz.  In fact, there's no hard limit to the number of channels that could be attached
-    /// to one controller, although the practical limit is probably about 200, and the reference hardware design provides
-    /// up to about 60.  The extended protocol allows for about 130 channels, which is hopefully well beyond what anyone will
-    /// be motivated to actually build in hardware.  Second, the extended protocol provides 8-bit PWM resolution, whereas the
-    /// LedWiz protocol is limited to 49 levels (about 5-1/2 bit resolution).  DOF uses 8-bit resolution internally, so this
-    /// lets devices show the full range of brightness levels that DOF can represent internally, for smoother fades and more
-    /// precise color control in RGB devices (or more precise speed control in motors, intensity control in solenoids, etc).
-    ///
-    /// DOF uses the extended protocol, so it can fully access all of the expanded features.
-    /// Legacy software that uses only the original LedWiz protocol (e.g., Future Pinball) can still recognize the device and
-    /// access the first 32 output ports, using 49-level PWM resolution.
-    /// 
-    /// DOF can automatically detect connected Pinscape controllers and configure them for use with the framework.
-    ///
-    /// The Pinscape Controller project can be found on <a href="https://developer.mbed.org/users/mjr/code/Pinscape_Controller/">mbed.org</a>.
     /// </summary>
     public class PinOne : OutputControllerFlexCompleteBase
     {
