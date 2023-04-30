@@ -20,7 +20,7 @@ namespace DirectOutput.Cab.Out.PinOne
         /// <param name="Cabinet">The cabinet object to which the automatically detected IOutputController objects are added if necessary.</param>
         public void AutoConfig(Cabinet Cabinet)
         {
-            const int UnitBias = 50;
+            const int UnitBias = 10;
             List<string> Preconfigured = new List<string>(Cabinet.OutputControllers.Where(OC => OC is PinOne).Select(PO => ((PinOne)PO).ComPort));
             String comPort = GetDevice();
 
@@ -66,7 +66,8 @@ namespace DirectOutput.Cab.Out.PinOne
 
                     Port = new SerialPort(sp, 2000000, Parity.None, 8, StopBits.One);
                     Port.NewLine = "\r\n";
-                    Port.ReadTimeout = 500;
+                    Port.ReadTimeout = 100;
+                    Port.WriteTimeout = 100;
                     Port.Open();
                     Port.DtrEnable = true;
                     Port.Write(new byte[] { 0, 251, 0, 0, 0, 0, 0, 0, 0 }, 0, 9);

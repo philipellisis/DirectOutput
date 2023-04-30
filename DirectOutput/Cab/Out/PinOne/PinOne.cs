@@ -252,6 +252,7 @@ namespace DirectOutput.Cab.Out.PinOne
                     Port = new SerialPort(ComPort, 2000000, Parity.None, 8, StopBits.One);
                     Port.NewLine = "\r\n";
                     Port.ReadTimeout = 500;
+                    Port.WriteTimeout = 500;
                     Port.Open();
                     Port.DtrEnable = true;
                 }
