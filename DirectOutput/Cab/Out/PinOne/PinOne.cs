@@ -96,6 +96,7 @@ namespace DirectOutput.Cab.Out.PinOne
         private string _ComPort = "comm1";
         private bool ComPortSet = false;
         private object PortLocker = new object();
+        private bool isMaster = false;
         private PinOneCommunication pinOneCommunication;
 
         /// <summary>
@@ -248,6 +249,7 @@ namespace DirectOutput.Cab.Out.PinOne
                     {
                         if(pinOneCommunication.CreateServer())
                         {
+                            isMaster = true;
                             if (!pinOneCommunication.ConnectToServer())
                             {
                                 throw new Exception("Unable to connect to server after new creation");

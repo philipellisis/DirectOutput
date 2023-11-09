@@ -67,6 +67,10 @@ public class NamedPipeServer
                     serialPort.Open();
                     serverStream.Write(Encoding.UTF8.GetBytes("OK"), 0, 2);
                 }
+                else if (requestStr.StartsWith("STOP_SERVER"))
+                {
+                    isRunning = false;
+                }
                 else if (requestStr.StartsWith("DISCONNECT"))
                 {
                     serverStream.Disconnect();

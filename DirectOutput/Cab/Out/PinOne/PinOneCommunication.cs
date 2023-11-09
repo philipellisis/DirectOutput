@@ -31,9 +31,9 @@ public class PinOneCommunication
 
     public bool DisconnectFromServer()
     {
+        Disconnect();
         if (server !=null)
         {
-            Disconnect();
             server.StopServer();
             return true;
         }
@@ -69,7 +69,6 @@ public class PinOneCommunication
     public void Disconnect()
     {
         SendMessage("DISCONNECT");
-        ReadMessage(); // Expect OK
     }
 
     public void Write(byte[] bytesToWrite)
@@ -100,7 +99,16 @@ public class PinOneCommunication
         }
         catch (Exception)
         {
-            CreateServer();
+            if (CreateServer() && ConnectToServer())
+            {
+                byte[] request = Encoding.UTF8.GetBytes(message);
+                pipeClient.Write(request, 0, request.Length);
+            }
+            else
+            {
+                throw new Exception("Unable to connect to board");
+            }
+
         }
 
     }
