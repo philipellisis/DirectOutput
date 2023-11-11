@@ -19,14 +19,7 @@ namespace DirectOutput.Cab.Out.PinOne
             const int UnitBias = 10;
             List<string> Preconfigured = new List<string>(Cabinet.OutputControllers.Where(OC => OC is PinOne).Select(PO => ((PinOne)PO).ComPort));
             String comPort = GetDevice();
-            if (comPort.IsNullOrEmpty())
-            {
-                PinOneCommunication communication  = new PinOneCommunication(comPort);
-                if (communication.ConnectToServer())
-                {
-                    comPort = communication.GetCOMPort();
-                }
-            }
+
 
             if (!Preconfigured.Contains(comPort) && comPort != "")
             {
@@ -93,7 +86,16 @@ namespace DirectOutput.Cab.Out.PinOne
                     }
                 }
             }
-            return "";
+
+
+            string comPort = "";
+            PinOneCommunication communication = new PinOneCommunication("");
+            if (communication.ConnectToServer())
+            {
+                comPort = communication.GetCOMPort();
+            }
+            
+            return comPort;
         }
 
         #endregion

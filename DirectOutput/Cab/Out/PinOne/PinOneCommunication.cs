@@ -50,6 +50,7 @@ public class PinOneCommunication
                 Thread serverThread = new Thread(server.StartServer);
                 serverThread.IsBackground = true;
                 serverThread.Start();
+                Thread.Sleep(300);
                 return true;
             }
         }

@@ -4,6 +4,7 @@ using System.IO.Pipes;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using PerCederberg.Grammatica.Runtime;
 
 public class NamedPipeServer
 {
@@ -11,6 +12,8 @@ public class NamedPipeServer
     private bool isRunning = true;
     private string comPort = "";
     private const string PipeName = "ComPortServerPipe";
+    CancellationToken clientToken = new CancellationToken();
+    CancellationToken serverToken = new CancellationToken();
 
     public NamedPipeServer(string comPort)
     {
@@ -30,7 +33,7 @@ public class NamedPipeServer
 
         Task.Run(async () =>
         {
-            while (true)
+            while (isRunning)
             {
                 var serverStream = new NamedPipeServerStream(
                     PipeName,
@@ -40,7 +43,7 @@ public class NamedPipeServer
                     PipeOptions.Asynchronous);
 
                 Console.WriteLine("Waiting for client connection...");
-                await serverStream.WaitForConnectionAsync();
+                await serverStream.WaitForConnectionAsync(serverToken);
 
                 HandleClientConnectionAsync(serverStream);
             }
@@ -58,12 +61,13 @@ public class NamedPipeServer
             try
             {
                 var request = new byte[1024];
-                int bytesRead = await serverStream.ReadAsync(request, 0, request.Length);
+                int bytesRead = await serverStream.ReadAsync(request, 0, request.Length, clientToken);
                 string requestStr = Encoding.UTF8.GetString(request, 0, bytesRead);
 
                 // Process request
                 if (requestStr.StartsWith("CONNECT"))
                 {
+                    Console.WriteLine("Requesting Connect");
                     serialPort.Open();
                     serverStream.Write(Encoding.UTF8.GetBytes("OK"), 0, 2);
                 }
@@ -75,6 +79,7 @@ public class NamedPipeServer
                 {
                     serverStream.Disconnect();
                     completed = true;
+                    Console.WriteLine("Requesting disconnect");
                 }
                 else if (requestStr.StartsWith("WRITE"))
                 {
@@ -94,31 +99,36 @@ public class NamedPipeServer
                 }
                 else if (requestStr.StartsWith("COMPORT"))
                 {
+                    Console.WriteLine("Requesting com port");
                     serverStream.Write(Encoding.UTF8.GetBytes(this.comPort), 0, this.comPort.Length);
                 }
             }
             catch (Exception ex)
             {
-                // Handle exceptions (logging, cleanup, etc.)
                 serverStream.Disconnect();
                 isRunning = false;
             }
             finally
             {
-                
+                //Console.WriteLine("cleaning up, closing ports");
             }
 
         }
         if (isRunning == false)
         {
+
             serverStream.Disconnect();
             serverStream.Close();
-            serialPort.Close();
+            
         }
     }
 
     public void StopServer()
     {
+        serialPort.Close();
         isRunning = false;
+        clientToken.ThrowIfCancellationRequested();
+        serverToken.ThrowIfCancellationRequested();
+        Thread.Sleep(300);
     }
 }
