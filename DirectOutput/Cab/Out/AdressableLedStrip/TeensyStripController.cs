@@ -559,7 +559,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             ComPort.StopBits = ComPortStopBits;
             ComPort.ReadTimeout = ComPortTimeOutMs;
             ComPort.WriteTimeout = ComPortTimeOutMs;
-			ComPort.DtrEnable = ComPortDtrEnable;
+			
 
             try
             {
@@ -573,6 +573,7 @@ namespace DirectOutput.Cab.Out.AdressableLedStrip
             try
             {
                 ComPort.Open();
+                ComPort.DtrEnable = ComPortDtrEnable;
             }
             catch (Exception E)
             {
