@@ -104,6 +104,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ciloci.Flee">
       <HintPath>..\packages\fleesharp.0.9.27-pre\lib\net40\Ciloci.Flee.dll</HintPath>
