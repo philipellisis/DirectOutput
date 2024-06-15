@@ -6,7 +6,7 @@ using System.IO.Ports;
 namespace DirectOutput.Cab.Out.PinOne
 {
     /// <summary>
-    /// The <a href="https://clevelandsoftwaredesign.com">PinOne Controller</a> is an free for non commercial use
+    /// The <a href="https://clevelandsoftwaredesign.com">PinOne Controller</a> is a free for non commercial use
     /// software/hardware project based on the inexpensive, easy to use Arduino microcontroller development platform. Almost any
     /// Arduino based board will work with the software, but the Cleveland Software Design PinOne board is 
     /// specifically designed to work with the software and has all the hardware components already added into it. 
