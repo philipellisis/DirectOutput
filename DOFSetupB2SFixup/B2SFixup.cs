@@ -23,7 +23,9 @@ namespace DOFSetupB2SFixup
 
             // Get the DirectOutput install location.  
             String dofPath = session.CustomActionData["INSTALLEDPATH"];
-            session.Log("Installation folder is " + dofPath);
+            String binDir = session.CustomActionData["BINDIR"];
+            String bitness = session.CustomActionData["BITNESS"];
+            session.Log("Installation path: " + dofPath + ", binary dir: " + binDir + ", bitness=" + bitness);
 
             // Look up B2S.Server and try to get the local file system location
             // where it's installed.  Do this by loading the type for "B2S.Server"
@@ -60,7 +62,7 @@ namespace DOFSetupB2SFixup
                 // Create a shortcut to the DirectOutput install directory in the
                 // B2S Plugins folder.  The shortcut must be named DirectOutput.lnk.
                 session.Log("Creating B2S Plugins\\DirectOutput.lnk");
-                String pluginsDir = Path.Combine(path, "Plugins");
+                String pluginsDir = Path.Combine(path, bitness == "64" ? "Plugins64" : "Plugins");
                 String shortcutFile = Path.Combine(pluginsDir, "DirectOutput.lnk");
                 try
                 {
@@ -74,7 +76,7 @@ namespace DOFSetupB2SFixup
                     var shell = new WshShell();
                     IWshShortcut shortcut = shell.CreateShortcut(shortcutFile);
                     shortcut.Description = "DirectOutput";
-                    shortcut.TargetPath = dofPath;
+                    shortcut.TargetPath = Path.Combine(dofPath, binDir);
                     shortcut.Save();
                 }
                 catch (Exception exc)
